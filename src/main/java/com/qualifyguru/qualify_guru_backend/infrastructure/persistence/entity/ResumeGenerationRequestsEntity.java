@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "JG_RESUME_GENERATION_REQUESTS")
+@Table(name = "JG_RESUMES_GENERATION_REQUESTS")
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
