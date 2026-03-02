@@ -29,4 +29,4 @@ CREATE TABLE `jg_generation_request_logs` (
     PRIMARY KEY (`id`),
     KEY `idx_log_request_id` (`request_id`),
     CONSTRAINT `fk_log_request` FOREIGN KEY (`request_id`) REFERENCES `jg_resumes_generation_requests` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
