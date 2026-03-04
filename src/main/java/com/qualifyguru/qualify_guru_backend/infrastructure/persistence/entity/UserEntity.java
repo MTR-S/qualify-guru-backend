@@ -1,6 +1,6 @@
 package com.qualifyguru.qualify_guru_backend.infrastructure.persistence.entity;
 
-import com.qualifyguru.qualify_guru_backend.domain.model.UsersRoles;
+import com.qualifyguru.qualify_guru_backend.domain.model.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +23,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UsersEntity {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,10 +41,10 @@ public class UsersEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
-    private UsersRoles role;
+    private UserRole role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserProfilesEntity> profiles = new ArrayList<>();
+    private List<UserProfileEntity> profiles = new ArrayList<>();
 
     @CreatedDate
     @Column(name = "created_at")
