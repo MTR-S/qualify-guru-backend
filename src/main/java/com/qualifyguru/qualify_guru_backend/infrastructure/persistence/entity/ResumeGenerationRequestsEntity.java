@@ -49,7 +49,7 @@ public class ResumeGenerationRequestsEntity {
     private List<GeneratedRequestLogEntity> logs = new ArrayList<>();
 
     @OneToOne(mappedBy = "request", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private GeneratedResumesEntity generatedResume;
+    private GeneratedResumeEntity generatedResume;
 
     @CreatedDate
     @Column(name = "created_at", updatable = false)

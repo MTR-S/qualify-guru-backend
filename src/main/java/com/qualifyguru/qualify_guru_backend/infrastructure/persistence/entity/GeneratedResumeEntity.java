@@ -20,7 +20,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-public class GeneratedResumesEntity {
+public class GeneratedResumeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
