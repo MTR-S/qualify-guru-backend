@@ -5,12 +5,12 @@ import com.qualifyguru.qualify_guru_backend.domain.port.out.UserRepositoryPort;
 import com.qualifyguru.qualify_guru_backend.infrastructure.persistence.entity.UserEntity;
 import com.qualifyguru.qualify_guru_backend.infrastructure.persistence.mapper.UserMapper;
 import com.qualifyguru.qualify_guru_backend.infrastructure.persistence.repository.UserRepository;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-@Component
+@Service
 public class UserPersistenceAdapter implements UserRepositoryPort {
 
     private final UserRepository repository;

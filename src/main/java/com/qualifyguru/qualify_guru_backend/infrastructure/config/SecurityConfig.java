@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,7 +21,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.qualifyguru.qualify_guru_backend.infrastructure.security.jwt.JwtAuthenticationFilter;
+import com.qualifyguru.qualify_guru_backend.infrastructure.security.filter.JwtAuthenticationFilter;
 
 import java.util.HashMap;
 import java.util.List;
@@ -44,8 +43,9 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/qualify/guru/v1/auth/**").permitAll()
                         .requestMatchers("/actuator/health").permitAll()
+                        .requestMatchers("/error").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
@@ -62,13 +62,12 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // IMPORTANTE: Em produção, NUNCA use "*". Substitua pela URL exata do frontend do Qualify Guru.
         configuration.setAllowedOrigins(List.of("https://app.matheusqualifyguru.com"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // Aplica a regra para todos os endpoints
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 
@@ -78,7 +77,6 @@ public class SecurityConfig {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
-            // Construção manual do JSON de erro para não depender do ControllerAdvice (que não captura erros de Filtro)
             Map<String, Object> body = new HashMap<>();
             body.put("status", HttpStatus.UNAUTHORIZED.value());
             body.put("error", "Unauthorized");

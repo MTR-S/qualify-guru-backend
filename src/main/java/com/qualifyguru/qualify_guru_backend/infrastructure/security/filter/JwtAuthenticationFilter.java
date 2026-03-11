@@ -1,5 +1,6 @@
-package com.qualifyguru.qualify_guru_backend.infrastructure.security.jwt;
+package com.qualifyguru.qualify_guru_backend.infrastructure.security.filter;
 
+import com.qualifyguru.qualify_guru_backend.infrastructure.security.service.JwtService;
 import io.jsonwebtoken.JwtException;
 import io.micrometer.common.lang.NonNull;
 import jakarta.servlet.FilterChain;
@@ -26,7 +27,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(
+    public void doFilterInternal(
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain

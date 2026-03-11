@@ -2,7 +2,7 @@ package com.qualifyguru.qualify_guru_backend.infrastructure.api.controller;
 
 import com.qualifyguru.qualify_guru_backend.application.dto.request.LoginRequest;
 import com.qualifyguru.qualify_guru_backend.application.dto.response.AuthResponse;
-import com.qualifyguru.qualify_guru_backend.application.usecase.AuthenticationService;
+import com.qualifyguru.qualify_guru_backend.infrastructure.adapter.AuthenticationAdapter;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/qualify/guru/v1/auth")
 public class AuthController {
-    private final AuthenticationService authenticationService;
+    private final AuthenticationAdapter authenticationService;
 
-    public AuthController(AuthenticationService authenticationService) {
+    public AuthController(AuthenticationAdapter authenticationService) {
         this.authenticationService = authenticationService;
     }
 
