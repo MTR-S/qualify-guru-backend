@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/qualify/guru/v1/auth")
+@RequestMapping("/qualify-guru/api/v1/auth")
 public class AuthController {
     private final AuthenticationAdapter authenticationService;
 

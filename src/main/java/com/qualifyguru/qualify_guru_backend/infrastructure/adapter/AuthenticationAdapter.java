@@ -10,6 +10,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class AuthenticationAdapter implements AuthenticationUseCases {
 
@@ -34,7 +36,8 @@ public class AuthenticationAdapter implements AuthenticationUseCases {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         String jwtToken = jwtService.generateToken(userDetails);
+        Long expiresIn = jwtService.extractExpirationSeconds(jwtToken);
 
-        return new AuthResponse(jwtToken, "Bearer");
+        return new AuthResponse(jwtToken, "Bearer", expiresIn);
     }
 }
