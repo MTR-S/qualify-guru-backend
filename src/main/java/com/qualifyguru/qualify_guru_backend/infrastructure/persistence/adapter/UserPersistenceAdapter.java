@@ -1,4 +1,4 @@
-package com.qualifyguru.qualify_guru_backend.infrastructure.adapter;
+package com.qualifyguru.qualify_guru_backend.infrastructure.persistence.adapter;
 
 import com.qualifyguru.qualify_guru_backend.domain.model.User;
 import com.qualifyguru.qualify_guru_backend.application.port.out.UserRepositoryPort;
@@ -41,5 +41,10 @@ public class UserPersistenceAdapter implements UserRepositoryPort {
         return repository
                 .findByEmail(email)
                 .map(userMapper::toDomain);
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return repository.existsByEmail(email);
     }
 }
