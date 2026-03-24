@@ -2,15 +2,13 @@ package com.qualifyguru.qualify_guru_backend.infrastructure.adapter;
 
 import com.qualifyguru.qualify_guru_backend.application.dto.request.LoginRequest;
 import com.qualifyguru.qualify_guru_backend.application.dto.response.AuthResponse;
-import com.qualifyguru.qualify_guru_backend.domain.port.out.usecase.AuthenticationUseCases;
+import com.qualifyguru.qualify_guru_backend.application.port.in.AuthenticationUseCases;
 import com.qualifyguru.qualify_guru_backend.infrastructure.security.service.JwtService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
 
 @Service
 public class AuthenticationAdapter implements AuthenticationUseCases {

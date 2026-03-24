@@ -1,6 +1,6 @@
 package com.qualifyguru.qualify_guru_backend.infrastructure.persistence.entity;
 
-import com.qualifyguru.qualify_guru_backend.domain.model.UserRole;
+import com.qualifyguru.qualify_guru_backend.domain.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

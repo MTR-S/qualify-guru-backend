@@ -1,7 +1,6 @@
-package com.qualifyguru.qualify_guru_backend.domain.port.out;
+package com.qualifyguru.qualify_guru_backend.application.port.out;
 
 import com.qualifyguru.qualify_guru_backend.domain.model.User;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 

@@ -1,7 +1,7 @@
 package com.qualifyguru.qualify_guru_backend.infrastructure.adapter;
 
 import com.qualifyguru.qualify_guru_backend.domain.model.User;
-import com.qualifyguru.qualify_guru_backend.domain.port.out.UserRepositoryPort;
+import com.qualifyguru.qualify_guru_backend.application.port.out.UserRepositoryPort;
 import com.qualifyguru.qualify_guru_backend.infrastructure.persistence.entity.UserEntity;
 import com.qualifyguru.qualify_guru_backend.infrastructure.persistence.mapper.UserMapper;
 import com.qualifyguru.qualify_guru_backend.infrastructure.persistence.repository.UserRepository;

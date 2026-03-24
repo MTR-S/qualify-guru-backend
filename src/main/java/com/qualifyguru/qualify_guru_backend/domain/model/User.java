@@ -1,5 +1,7 @@
 package com.qualifyguru.qualify_guru_backend.domain.model;
 
+import com.qualifyguru.qualify_guru_backend.domain.enums.UserRole;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
