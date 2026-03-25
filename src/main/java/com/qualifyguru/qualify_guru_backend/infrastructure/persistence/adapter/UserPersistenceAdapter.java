@@ -2,8 +2,12 @@ package com.qualifyguru.qualify_guru_backend.infrastructure.persistence.adapter;
 
 import com.qualifyguru.qualify_guru_backend.domain.model.User;
 import com.qualifyguru.qualify_guru_backend.application.port.out.UserRepositoryPort;
+import com.qualifyguru.qualify_guru_backend.domain.model.UserProfile;
 import com.qualifyguru.qualify_guru_backend.infrastructure.persistence.entity.UserEntity;
+import com.qualifyguru.qualify_guru_backend.infrastructure.persistence.entity.UserProfileEntity;
 import com.qualifyguru.qualify_guru_backend.infrastructure.persistence.mapper.UserMapper;
+import com.qualifyguru.qualify_guru_backend.infrastructure.persistence.mapper.UserProfileMapper;
+import com.qualifyguru.qualify_guru_backend.infrastructure.persistence.repository.UserProfileRepository;
 import com.qualifyguru.qualify_guru_backend.infrastructure.persistence.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,38 +17,60 @@ import java.util.Optional;
 @Service
 public class UserPersistenceAdapter implements UserRepositoryPort {
 
-    private final UserRepository repository;
+    private static final String ILLEGAL_ARGUMENT_EXCEPTION_MESSAGE = "User not found.";
+
+    private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    public UserPersistenceAdapter(UserRepository repository,
-                                  UserMapper userMapper) {
-        this.repository = repository;
+    private final UserProfileRepository userProfileRepository;
+    private final UserProfileMapper userProfileMapper;
+
+    public UserPersistenceAdapter(UserRepository userRepository, UserMapper userMapper,
+                                  UserProfileRepository userProfileRepository, UserProfileMapper userProfileMapper) {
+        this.userRepository = userRepository;
         this.userMapper = userMapper;
+
+        this.userProfileRepository = userProfileRepository;
+        this.userProfileMapper = userProfileMapper;
     }
 
     @Override
     @Transactional
     public User save(User user) {
 
-        UserEntity entity = repository.findByPublicId(user.getPublicId())
+        UserEntity entity = userRepository.findByPublicId(user.getPublicId())
                 .orElseGet(UserEntity::new);
 
         userMapper.updateEntityFromDomain(user, entity);
 
-        UserEntity savedEntity = repository.save(entity);
+        UserEntity savedEntity = userRepository.save(entity);
 
         return userMapper.toDomain(savedEntity);
     }
 
     @Override
     public Optional<User> findByEmail(String email) {
-        return repository
+        return userRepository
                 .findByEmail(email)
                 .map(userMapper::toDomain);
     }
 
     @Override
     public boolean existsByEmail(String email) {
-        return repository.existsByEmail(email);
+        return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    @Transactional
+    public void saveProfile(String userEmail, UserProfile userProfile) {
+
+        UserEntity userEntity = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new IllegalArgumentException(ILLEGAL_ARGUMENT_EXCEPTION_MESSAGE));
+
+        UserProfileEntity userProfileEntity = userProfileMapper.toEntity(userProfile);
+
+        userProfileEntity.setUser(userEntity);
+
+        userProfileRepository.save(userProfileEntity);
     }
 }
