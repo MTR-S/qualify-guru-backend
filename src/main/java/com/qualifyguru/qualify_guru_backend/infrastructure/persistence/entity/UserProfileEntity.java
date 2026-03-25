@@ -37,8 +37,8 @@ public class UserProfileEntity {
     @Column(nullable = false, length = 100)
     private String title;
 
-    @Column(name = "original_cv_s3_key", length = 512)
-    private String originalCvS3Key;
+    @Column(name = "original_resume_key", length = 512)
+    private String originalResumeKey;
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "parsed_base_content", columnDefinition = "json")
