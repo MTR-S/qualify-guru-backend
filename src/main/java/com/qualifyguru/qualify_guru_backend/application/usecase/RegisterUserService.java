@@ -8,15 +8,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RegisterUserUseCaseImpl implements RegisterUserUseCases {
+public class RegisterUserService implements RegisterUserUseCases {
 
     private static final String ILLEGAL_ARGUMENT_EXCEPTION_MESSAGE = "This email already exists. Try again with a different login";
 
     private final UserRepositoryPort userRepositoryPort;
     private final PasswordEncoder passwordEncoder;
 
-    public RegisterUserUseCaseImpl(UserRepositoryPort userRepositoryPort,
-                                   PasswordEncoder passwordEncoder) {
+    public RegisterUserService(UserRepositoryPort userRepositoryPort,
+                               PasswordEncoder passwordEncoder) {
         this.userRepositoryPort = userRepositoryPort;
         this.passwordEncoder = passwordEncoder;
     }

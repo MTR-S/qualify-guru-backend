@@ -1,4 +1,4 @@
-package com.qualifyguru.qualify_guru_backend.infrastructure.api.controller;
+package com.qualifyguru.qualify_guru_backend.infrastructure.web.controller;
 
 import com.qualifyguru.qualify_guru_backend.application.dto.request.LoginRequest;
 import com.qualifyguru.qualify_guru_backend.application.dto.request.RegisterUserRequest;
@@ -27,7 +27,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<AuthResponse> login(
+            @Valid @RequestBody LoginRequest request) {
 
         AuthResponse response = authenticationUseCases.authenticate(request);
 
@@ -35,7 +36,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Void> login(@Valid @RequestBody RegisterUserRequest request) {
+    public ResponseEntity<Void> login(
+            @Valid @RequestBody RegisterUserRequest request) {
 
         registerUserUseCases.registerUser(request);
 

@@ -6,12 +6,11 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface UserMapper {
 
     @Mapping(target = "profiles", ignore = true)
     User toDomain(UserEntity entity);
-
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "profiles", ignore = true)
