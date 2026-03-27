@@ -3,9 +3,9 @@
 CREATE TABLE `aa_generated_resumes` (
     `id` bigint NOT NULL AUTO_INCREMENT,
     `public_id` binary(16) NOT NULL,
-    `request_id` bigint NOT NULL COMMENT 'Garante que cada job de IA tenha apenas um currículo final',
-    `file_s3_key` varchar(512) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'URI do arquivo Markdown no bucket AWS S3',
-    `file_format` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'MARKDOWN' COMMENT 'Sinaliza para o client como processar o arquivo',
+    `request_id` bigint NOT NULL COMMENT 'Ensures that each AI job has only one final resume',
+    `file_key` varchar(512) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'URI of the Markdown file in the cloud',
+    `file_format` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'MARKDOWN' COMMENT 'Indicates to the client how to process the file',
     `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),

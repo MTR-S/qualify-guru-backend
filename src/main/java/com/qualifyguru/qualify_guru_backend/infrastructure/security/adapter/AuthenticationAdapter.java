@@ -1,4 +1,4 @@
-package com.qualifyguru.qualify_guru_backend.infrastructure.adapter;
+package com.qualifyguru.qualify_guru_backend.infrastructure.security.adapter;
 
 import com.qualifyguru.qualify_guru_backend.application.dto.request.LoginRequest;
 import com.qualifyguru.qualify_guru_backend.application.dto.response.AuthResponse;

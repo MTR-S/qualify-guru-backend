@@ -3,10 +3,10 @@
 CREATE TABLE `jg_resumes_generation_requests` (
     `id` bigint NOT NULL AUTO_INCREMENT,
     `public_id` binary(16) NOT NULL,
-    `user_id` bigint NOT NULL COMMENT 'Para listagem rápida por usuário sem JOIN',
-    `profile_id` bigint NOT NULL COMMENT 'O perfil (currículo rascunho) utilizado',
-    `job_description` text COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Texto da vaga colado pelo usuário',
-    `status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'PENDING' COMMENT 'Mapeado via Enum: PENDING, PROCESSING, COMPLETED, FAILED',
+    `user_id` bigint NOT NULL COMMENT 'For fast listing by user without JOIN',
+    `profile_id` bigint NOT NULL COMMENT 'The profile (draft resume) used',
+    `job_description` text COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Job description text pasted by the user',
+    `status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'PENDING' COMMENT 'Mapped via Enum: PENDING, PROCESSING, COMPLETED, FAILED',
     `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
@@ -22,10 +22,10 @@ CREATE TABLE `jg_resumes_generation_requests` (
 
 CREATE TABLE `jg_generation_request_logs` (
     `id` bigint NOT NULL AUTO_INCREMENT,
-    `request_id` bigint NOT NULL COMMENT 'A qual requisição este log pertence',
-    `status` varchar(50) NOT NULL COMMENT 'O status no momento do log (ex: PROCESSING, FAILED)',
-    `message` text COMMENT 'Pode ser erro da stacktrace, aviso do rate limit do LLM, etc.',
-    `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Data exata do evento (imutável)',
+    `request_id` bigint NOT NULL COMMENT 'Which request this log belongs to',
+    `status` varchar(50) NOT NULL COMMENT 'Status at the time of the log (e.g., PROCESSING, FAILED)',
+    `message` text COMMENT 'May contain stacktrace error, LLM rate limit warning, etc.',
+    `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Exact timestamp of the event (immutable)',
     PRIMARY KEY (`id`),
     KEY `idx_log_request_id` (`request_id`),
     CONSTRAINT `fk_log_request` FOREIGN KEY (`request_id`) REFERENCES `jg_resumes_generation_requests` (`id`) ON DELETE CASCADE

@@ -30,8 +30,8 @@ public class GeneratedResumeEntity {
     @Column(name = "public_id", updatable = false, nullable = false, unique = true)
     private UUID publicId = UUID.randomUUID();
 
-    @Column(name = "file_s3_key", nullable = false, length = 512)
-    private String fileS3Key;
+    @Column(name = "file_key", nullable = false, length = 512)
+    private String fileKey;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "request_id", referencedColumnName = "id", nullable = false, unique = true)
