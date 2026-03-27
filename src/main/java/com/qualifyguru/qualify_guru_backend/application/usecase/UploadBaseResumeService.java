@@ -31,7 +31,7 @@ public class UploadBaseResumeService {
 
         String fileKey = fileStoragePort.uploadAndReturnKey(fileName, content, contentType, contentLength);
 
-        String title = "Perfil Base - " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+        String title = "Base profile - " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
         LocalDateTime now = LocalDateTime.now();
 
         UserProfile domainUserProfile = new UserProfile(title, fileKey, now, now);
