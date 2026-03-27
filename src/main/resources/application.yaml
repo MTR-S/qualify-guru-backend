@@ -30,12 +30,6 @@ spring:
   jackson:
     property-naming-strategy: SNAKE_CASE
 
-#logging:
- # level:
-  #  org.springframework.web: DEBUG
-   # org.springframework.security: DEBUG
-    #com.qualifyguru: DEBUG
-
 jwt:
   secret: ${JWT_SECRET:VGhpcy1Jcy1BLVRlc3QtU2VjcmV0LUtleS1UaGF0LU11c3QtQmUtQXQtTGVhc3QtMjU2LUJpdHM=}
   expiration: ${JWT_EXPIRATION:86400000}
