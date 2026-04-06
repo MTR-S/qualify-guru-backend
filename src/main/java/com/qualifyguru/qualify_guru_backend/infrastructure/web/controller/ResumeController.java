@@ -1,5 +1,6 @@
 package com.qualifyguru.qualify_guru_backend.infrastructure.web.controller;
 
+import com.qualifyguru.qualify_guru_backend.application.usecase.FileParserService;
 import com.qualifyguru.qualify_guru_backend.application.usecase.UploadBaseResumeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,9 +18,12 @@ import java.util.Map;
 public class ResumeController {
 
     private final UploadBaseResumeService uploadBaseResumeService;
+    private final FileParserService fileParserService;
 
-    public ResumeController(UploadBaseResumeService uploadBaseResumeService) {
+    public ResumeController(UploadBaseResumeService uploadBaseResumeService,
+                            FileParserService fileParserService) {
         this.uploadBaseResumeService = uploadBaseResumeService;
+        this.fileParserService = fileParserService;
     }
 
     @PostMapping("/upload")
@@ -29,7 +33,7 @@ public class ResumeController {
 
         String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        String fileKey = uploadBaseResumeService.execute(
+        String fileKey = uploadBaseResumeService.uploadResume(
                 userEmail,
                 file.getOriginalFilename(),
                 file.getInputStream(),
@@ -42,5 +46,26 @@ public class ResumeController {
                         "fileKey", fileKey
                 )
         );
+    }
+
+    @PostMapping("/test-extract")
+    public ResponseEntity<Map<String, String>> testExtraction(@RequestParam("fileKey") String fileKey) {
+        try {
+            String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+
+            fileParserService.parseFile(userEmail, fileKey);
+
+            return ResponseEntity.ok(Map.of(
+                    "status", "Success",
+                    "message", "The PDF was read, the text extracted, and saved to the database."
+            ));
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return ResponseEntity.internalServerError().body(Map.of("error", "Inside server error when extracting the text to PDF."));
+        }
     }
 }

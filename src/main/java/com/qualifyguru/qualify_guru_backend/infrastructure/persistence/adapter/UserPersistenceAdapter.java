@@ -12,12 +12,14 @@ import com.qualifyguru.qualify_guru_backend.infrastructure.persistence.repositor
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class UserPersistenceAdapter implements UserRepositoryPort {
 
-    private static final String ILLEGAL_ARGUMENT_EXCEPTION_MESSAGE = "User not found.";
+    private static final String USER_NOT_FOUND = "User not found.";
+    private static final String PROFILE_NOT_FOUND = "Profile not found for this file key.";
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
@@ -65,12 +67,26 @@ public class UserPersistenceAdapter implements UserRepositoryPort {
     public void saveProfile(String userEmail, UserProfile userProfile) {
 
         UserEntity userEntity = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new IllegalArgumentException(ILLEGAL_ARGUMENT_EXCEPTION_MESSAGE));
+                .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND));
 
         UserProfileEntity userProfileEntity = userProfileMapper.toEntity(userProfile);
 
         userProfileEntity.setUser(userEntity);
 
         userProfileRepository.save(userProfileEntity);
+    }
+
+    @Override
+    @Transactional
+    public void updateParsedContent(String userEmail, String fileKey, Map<String, Object> parsedContent) {
+
+        UserEntity user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND));
+
+        UserProfileEntity profile = userProfileRepository.findByUserIdAndOriginalResumeKey(user.getId(), fileKey)
+                .orElseThrow(() -> new IllegalArgumentException(PROFILE_NOT_FOUND));
+
+        profile.setParsedBaseContent(parsedContent);
+        userProfileRepository.save(profile);
     }
 }
