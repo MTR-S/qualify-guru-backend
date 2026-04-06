@@ -4,4 +4,5 @@ import java.io.InputStream;
 
 public interface FileStoragePort {
     String uploadAndReturnKey(String fileName, InputStream content, String contentType, long contentLength);
+    InputStream downloadFile(String fileKey);
 }
