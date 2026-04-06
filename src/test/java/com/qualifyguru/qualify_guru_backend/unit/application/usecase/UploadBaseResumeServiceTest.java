@@ -34,7 +34,7 @@ class UploadBaseResumeServiceTest {
     private UploadBaseResumeService uploadBaseResumeService;
 
     @Test
-    @DisplayName("You should be able to successfully upload and save the profile if the file is a PDF.")
+    @DisplayName("Should be able to successfully upload and save the profile if the file is a PDF.")
     void shouldUploadAndSaveProfileSuccessfully() {
         // Arrange
         String userEmail = "test@qualifyguru.com";
@@ -48,18 +48,15 @@ class UploadBaseResumeServiceTest {
                 .thenReturn(expectedFileKey);
 
         // Act
-        String resultKey = uploadBaseResumeService.execute(userEmail, fileName, mockInputStream, contentType, contentLength);
+        String resultKey = uploadBaseResumeService.uploadResume(userEmail, fileName, mockInputStream, contentType, contentLength);
 
-        // Assert 1: Validated whether the method's return value is the generated key.
         assertEquals(expectedFileKey, resultKey);
 
-        // Assert 2: Captured the domain profile that was created and sent to the database.
         ArgumentCaptor<UserProfile> profileCaptor = ArgumentCaptor.forClass(UserProfile.class);
         verify(userRepositoryPort).saveProfile(eq(userEmail), profileCaptor.capture());
 
         UserProfile savedProfile = profileCaptor.getValue();
 
-        // Assert 3: Inspected the inner workings of the mounted domain object.
         assertTrue(savedProfile.getTitle().startsWith("Base profile - "));
         assertEquals(expectedFileKey, savedProfile.getOriginalResumeKey());
         assertNotNull(savedProfile.getCreatedAt());
@@ -78,7 +75,7 @@ class UploadBaseResumeServiceTest {
 
         // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            uploadBaseResumeService.execute(userEmail, fileName, mockInputStream, invalidContentType, contentLength);
+            uploadBaseResumeService.uploadResume(userEmail, fileName, mockInputStream, invalidContentType, contentLength);
         });
 
         assertEquals("Only PDF files are allowed.", exception.getMessage());
