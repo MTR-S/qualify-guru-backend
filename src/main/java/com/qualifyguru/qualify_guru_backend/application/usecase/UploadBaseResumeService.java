@@ -22,8 +22,8 @@ public class UploadBaseResumeService {
         this.userRepositoryPort = userRepositoryPort;
     }
 
-    public String execute(String userEmail,String fileName, InputStream content,
-                          String contentType, long contentLength) {
+    public String uploadResume(String userEmail, String fileName, InputStream content,
+                               String contentType, long contentLength) {
 
         if (!"application/pdf".equals(contentType)) {
             throw new IllegalArgumentException(ILLEGAL_ARGUMENT_EXCEPTION_MESSAGE);

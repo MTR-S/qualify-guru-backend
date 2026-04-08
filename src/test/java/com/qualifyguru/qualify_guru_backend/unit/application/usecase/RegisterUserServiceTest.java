@@ -30,7 +30,7 @@ class RegisterUserServiceTest {
     private RegisterUserService registerUserService;
 
     @Test
-    @DisplayName("You should successfully register a user when the email address does not exist.")
+    @DisplayName("Should successfully register a user when the email address does not exist.")
     void shouldRegisterUserSuccessfully() {
         // Arrange
         RegisterUserRequest request = new RegisterUserRequest("new@email.com", "veryStrongPassword123");
@@ -54,7 +54,7 @@ class RegisterUserServiceTest {
     }
 
     @Test
-    @DisplayName("It should throw an IllegalArgumentException when the email is already in use.")
+    @DisplayName("Should throw an IllegalArgumentException when the email is already in use.")
     void shouldThrowExceptionWhenEmailAlreadyExists() {
         // Arrange
         RegisterUserRequest request = new RegisterUserRequest("existing@email.com", "veryStrongPassword123");
