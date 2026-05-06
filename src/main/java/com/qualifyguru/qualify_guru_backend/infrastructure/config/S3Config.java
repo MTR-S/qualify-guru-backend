@@ -25,7 +25,7 @@ public class S3Config {
         return S3Client.builder()
                 .region(Region.of(region))
                 .credentialsProvider(StaticCredentialsProvider.create(
-                        // No LocalStack, as credenciais podem ser qualquer string não vazia
+
                         AwsBasicCredentials.create("test", "test")
                 ))
                 .endpointOverride(URI.create(s3Endpoint))

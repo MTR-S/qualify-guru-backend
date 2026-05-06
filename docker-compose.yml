@@ -1,4 +1,7 @@
 services:
+
+  # --- STACK DE TESTES LOCAIS NA NUVEM ---
+
   localstack:
     image: localstack/localstack:2.3
     container_name: qualify-guru-localstack
@@ -13,3 +16,46 @@ services:
     volumes:
       - "${LOCALSTACK_VOLUME_DIR:-./volume}/localstack:/var/lib/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./localstack-init.sh:/etc/localstack/init/ready.d/init.sh"
+    networks:
+      - qualify-guru-network
+
+  # --- STACK DE OBSERVABILIDADE (PLG) ---
+
+  loki:
+    image: grafana/loki:2.9.2
+    container_name: qualify-guru-loki
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - qualify-guru-network
+
+  promtail:
+    image: grafana/promtail:2.9.2
+    container_name: qualify-guru-promtail
+    volumes:
+      - ./promtail-config.yaml:/etc/promtail/config.yml
+      - ./logs:/var/log/app_logs
+    command: -config.file=/etc/promtail/config.yml
+    depends_on:
+      - loki
+    networks:
+      - qualify-guru-network
+
+  grafana:
+    image: grafana/grafana:10.2.2
+    container_name: qualify-guru-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+    depends_on:
+      - loki
+    networks:
+      - qualify-guru-network
+
+networks:
+  qualify-guru-network:
+    driver: bridge
