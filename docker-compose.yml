@@ -1,7 +1,6 @@
 services:
 
-  # --- STACK DE TESTES LOCAIS NA NUVEM ---
-
+  # --- LOCAL CLOUD TOOLS --- #
   localstack:
     image: localstack/localstack:2.3
     container_name: qualify-guru-localstack
@@ -20,8 +19,21 @@ services:
     networks:
       - qualify-guru-network
 
-  # --- STACK DE OBSERVABILIDADE (PLG) ---
+  # --- QUEUE BROKER --- #
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: qualify-guru-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+    networks:
+      - qualify-guru-network
 
+
+  # --- LOGS --- #
   loki:
     image: grafana/loki:2.9.2
     container_name: qualify-guru-loki
